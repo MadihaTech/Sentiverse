@@ -1,180 +1,103 @@
-# app.py - SentiVerse: Final Version with All Features
-
 import streamlit as st
 import random
-import spacy
-import plotly.express as px
-import pandas as pd
+import plotly.graph_objects as go
 
-# Load spaCy model
-nlp = spacy.load("en_core_web_sm")
-
-# Page configuration
+# Set page layout
 st.set_page_config(page_title="SentiVerse: Emotional Forecasting AI", layout="wide")
 
-# --- Styling ---
+# Emoji theme + title
+st.markdown("<h1 style='text-align: center;'>🤖 SentiVerse: Emotional Forecasting AI</h1>", unsafe_allow_html=True)
+
+# Puzzle unlock gate
+if "unlocked" not in st.session_state:
+    st.session_state.unlocked = False
+
+if not st.session_state.unlocked:
+    st.subheader("🔐 Solve this to unlock the emotional intelligence of SentiVerse")
+    user_input = st.text_input("What comes once in a minute, twice in a moment, but never in a thousand years?")
+    if st.button("Submit"):
+        if user_input.strip().lower() == "m":
+            st.success("That's correct! Welcome to SentiVerse.")
+            st.session_state.unlocked = True
+            st.rerun()
+        else:
+            st.error("Oops! Try again.")
+    st.stop()
+
+# Input headline
+sample = "Fuel prices rise sharply across the country"
 st.markdown("""
-    <style>
-    .stButton>button {
-        background-color: #6C63FF;
-        color: white;
-        font-weight: 600;
-        padding: 0.6em 1.2em;
-        border-radius: 8px;
-    }
-    .stRadio > div {
-        flex-direction: row;
-    }
-    </style>
-""", unsafe_allow_html=True)
+#### Try this: `Fuel prices rise sharply across the country`
+""")
+headline = st.text_input("Enter a news headline:", key="headline")
 
-# --- Title & Description ---
-st.title("🧠 SentiVerse: Emotional Forecasting AI")
-st.markdown("An AI app that simulates society's emotional response to news and headlines. Unlock emotion-aware intelligence for policy, research, and communication.")
+# Stakeholder selection
+stakeholder = st.radio("Who are you?", ["Student", "Teacher", "Government", "Corporate", "Researcher", "Public"], horizontal=True)
 
-# --- Sample Headlines ---
-sample_headlines = [
-    "Government launches AI-based healthcare reforms",
-    "Fuel price hike triggers protests in rural districts",
-    "Education sector welcomes national mental health initiative",
-    "AI-powered surveillance raises global privacy concerns"
-]
+# Emotional forecast
+if st.button("Forecast Emotional Futures") and headline:
+    emotions = ["Cautious optimism", "Mild anxiety", "Curiosity"]
+    st.subheader("🧠 Simulated Emotional Futures")
+    for emo in emotions:
+        st.markdown(f"- {emo} - people are eager to see what unfolds.")
 
-selected = st.selectbox("Need inspiration? Choose a sample headline:", [""] + sample_headlines)
-
-headline = st.text_input("Enter a news headline:", value=selected if selected else "")
-
-# --- Functions ---
-def simulate_emotional_forecast(headline):
-    if len(headline.strip()) < 10:
-        return "⚠️ Please enter a more descriptive headline."
-    return (
-        "🟢 **Cautious optimism** — society sees potential and progress.\n\n"
-        "🟠 **Mild anxiety** — there's uncertainty about side effects.\n\n"
-        "🔵 **Curiosity** — people are eager to see what unfolds."
-    )
-
-def generate_emotional_volatility_score():
-    score = round(random.uniform(0.2, 0.9), 2)
-    interpretation = (
-        "🔹 Low volatility — public sentiment is stable." if score < 0.4 else
-        "🟠 Moderate volatility — expect mixed reactions." if score < 0.7 else
-        "🔺 High volatility — polarized or intense emotions likely."
-    )
-    return f"**Emotional Volatility Score (EVS): {score}**\n{interpretation}"
-
-def generate_cognitive_alignment():
-    return f"**Cognitive Alignment Prediction:** {random.choice(['🧠 Rational', '❤️ Emotional', '⚡ Impulsive'])}"
-
-def extract_geography(text):
-    text = text.lower()
-    geo_map = {
-        # India
-        "modi": "India", "narendra modi": "India", "delhi": "India", "rupee": "India",
-
-        # UAE & GCC
-        "dirhams": "UAE", "emirati": "UAE", "dubai": "UAE", "abu dhabi": "UAE", "sheikh": "UAE",
-
-        # USA
-        "biden": "USA", "white house": "USA", "dollar": "USA", "washington": "USA",
-
-        # UK & EU
-        "pound": "UK", "london": "UK", "sunak": "UK", "brexit": "UK", "euro": "EU", "european union": "EU",
-
-        # China
-        "xi jinping": "China", "yuan": "China", "beijing": "China", "shanghai": "China",
-
-        # Middle East
-        "riyadh": "Saudi Arabia", "iran": "Iran", "qatar": "Qatar", "oman": "Oman",
-
-        # Other major players
-        "putin": "Russia", "moscow": "Russia", "zelenskyy": "Ukraine", "kyiv": "Ukraine",
-        "tokyo": "Japan", "yen": "Japan", "seoul": "South Korea", "won": "South Korea",
-        "canberra": "Australia", "australian dollar": "Australia", "canadian dollar": "Canada", "ottawa": "Canada",
-
-        # Africa
-        "nairobi": "Kenya", "lagos": "Nigeria", "cape town": "South Africa", "egypt": "Egypt"
-    }
-    for k in geo_map:
-        if k in text:
-            return geo_map[k]
-    doc = nlp(text)
-    for ent in doc.ents:
-        if ent.label_ in ["GPE", "LOC"]:
-            return ent.text
-    return "Unknown Location"
-
-def generate_suggestion_from_headline(headline_text):
-    headline_text = headline_text.lower()
-    if any(word in headline_text for word in ["crisis", "hike", "protest", "unrest"]):
-        return (
-            "🔧 **Suggested Actions:**\n"
-            "- Launch transparent communication campaigns\n"
-            "- Address root causes with empathy\n"
-            "- Offer immediate support to affected groups"
-        )
-    elif any(word in headline_text for word in ["reform", "success", "growth", "initiative"]):
-        return (
-            "🚀 **Enhancement Ideas:**\n"
-            "- Scale the initiative with feedback loops\n"
-            "- Replicate in other sectors\n"
-            "- Showcase success stories to increase trust"
-        )
+    # Random EVS (Emotional Volatility Score)
+    evs = round(random.uniform(0.2, 0.8), 2)
+    st.markdown(f"**Emotional Volatility Score (EVS):** `{evs}`")
+    if evs > 0.6:
+        st.warning("High volatility - public sentiment may shift rapidly.")
+    elif evs > 0.4:
+        st.info("Moderate volatility - keep monitoring sentiment.")
     else:
-        return (
-            "🧭 **General Strategic Suggestion:**\n"
-            "- Track public sentiment continuously\n"
-            "- Ensure transparent messaging\n"
-            "- Promote open dialogue with stakeholders"
-        )
+        st.success("Low volatility - public sentiment is stable.")
 
-def generate_emotion_data():
-    return pd.DataFrame({
-        "Emotion": ["Optimism", "Anxiety", "Curiosity"],
-        "Intensity": [0.6, 0.4, 0.5]
-    })
+    # Cognitive alignment prediction (mock)
+    cog_style = random.choice(["Analytical", "Impulsive", "Reflective"])
+    st.markdown(f"**Cognitive Alignment Prediction:** `{cog_style}`")
 
-# --- Forecasting ---
-if st.button("📡 Forecast Emotional Futures"):
-    with st.spinner("Analyzing headline..."):
-        forecast = simulate_emotional_forecast(headline)
-        st.markdown("### 🔍 Emotional Forecast")
-        st.markdown(forecast)
-
-        # EVS + Alignment + Geo
-        st.markdown(generate_emotional_volatility_score())
-        st.markdown(generate_cognitive_alignment())
-        st.markdown("**Geographic Focus:** " + extract_geography(headline))
-
-        # Stakeholder Insight
-        user_type = st.selectbox("### 👥 Who are you?", ["Student", "Teacher", "Government/Policymaker", "Corporate Professional", "Researcher", "General Public"])
-        insights = {
-            "Student": "This helps build emotional awareness for social and academic issues.",
-            "Teacher": "Useful for discussing real-world events and student engagement.",
-            "Government/Policymaker": "Track sentiment to guide policy communication.",
-            "Corporate Professional": "Forecast consumer/employer sentiment to reduce risk.",
-            "Researcher": "Study public emotion dynamics tied to real-world events.",
-            "General Public": "Get emotionally informed and context-aware."
-        }
-        st.info(f"**Stakeholder Insight:** {insights[user_type]}")
-
-        # Strategic Suggestion
-        st.markdown("### 🧩 Strategic Suggestions")
-        st.success(generate_suggestion_from_headline(headline))
-
-        # Emotional Heatmap
-        st.markdown("### 🌡️ Emotional Heatmap")
-        fig = px.bar(generate_emotion_data(), x="Emotion", y="Intensity", color="Emotion")
-        st.plotly_chart(fig)
-
-# --- EI Trainer ---
-with st.expander("📚 Emotional Intelligence Trainer"):
-    st.markdown("Learn how to interpret and respond to emotional dynamics in society.")
-    st.markdown("**Scenario:** A controversial law triggers mixed emotional reactions.")
-    response = st.radio("What is the most emotionally intelligent action?", [
-        "Ignore the emotional response",
-        "Offer an official emotional validation statement",
-        "Escalate the law enforcement",
+    # Pie chart of emotional distribution
+    fig = go.Figure(data=[
+        go.Pie(labels=emotions, values=[30, 40, 30], hole=0.3, 
+               marker=dict(colors=["#FFD700", "#FFA07A", "#87CEFA"]))
     ])
-    if response:
+    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), width=600, height=400)
+    st.plotly_chart(fig, use_container_width=True)
+
+    # Strategic suggestions
+    st.subheader("📊 Strategic Suggestions")
+    st.markdown("- Maintain transparency")
+    st.markdown("- Monitor sentiment over time")
+    st.markdown("- Facilitate dialogue among stakeholders")
+
+    # Stakeholder insight
+    st.subheader("🧩 Stakeholder Insight")
+    messages = {
+        "Student": "This insight helps align emotional context for student-centric strategy.",
+        "Teacher": "Align educational content with emotional awareness.",
+        "Government": "Refine policy messaging and anticipate public response.",
+        "Corporate": "Adjust marketing or workplace initiatives to fit emotional climate.",
+        "Researcher": "Study emotional impact trends to inform future models.",
+        "Public": "Understand the emotional climate to better engage with societal shifts."
+    }
+    st.info(messages.get(stakeholder, "This tool supports emotionally informed decisions."))
+
+# Emotional Intelligence Trainer
+st.subheader("🧠 Emotional Intelligence Trainer")
+st.markdown("**Scenario:** A controversial policy is causing mixed emotional reactions.")
+trainer_option = st.radio("Choose the most emotionally intelligent response:", [
+    "Ignore public sentiment",
+    "Offer a validation statement acknowledging emotion",
+    "Enforce the policy strictly"
+], key="trainer")
+
+if trainer_option:
+    if trainer_option == "Offer a validation statement acknowledging emotion":
         st.success("Great choice! Acknowledging emotion builds trust and clarity.")
+    else:
+        st.warning("Consider acknowledging people's emotions to reduce resistance.")
+
+# Footer
+st.markdown("""
+---
+©2025 **SentiVerse** | Built with GPT, Streamlit, spaCy & Plotly - #AIforSociety
+""")
