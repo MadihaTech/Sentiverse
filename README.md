@@ -1,6 +1,6 @@
-# Sentiverse - Emotional Forecasting AI
+# SentiVerse - Emotional Forecasting AI
 
-**Sentiverse** is an AI concept that forecasts how people might *feel tomorrow*, based on whats's happening today.
+**SentiVerse** is an AI concept that forecasts how people might *feel tomorrow*, based on whats's happening today.
 
 This project was built as part of the **FutureTech Challenge (2025)** and simulates emotional futures from real-world signals like news, headlines, or major events.
 
@@ -27,4 +27,4 @@ This project was built as part of the **FutureTech Challenge (2025)** and simula
 Due to API quota restrictions, the current demo uses mocked responses . The actual GPT-based forecasting code is included (commented out) and can be activated with a valid key.
 
 ## Author
-Madiha - Final Year BBA AI Student | passionate about AI for human-centeredstrategy
+Madiha - Final Year BBA AI Student | passionate about AI for human-centered strategy
