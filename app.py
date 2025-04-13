@@ -1,12 +1,29 @@
 import streamlit as st
 import random
 import plotly.graph_objects as go
+from groq import Groq
 
 # Set page layout
 st.set_page_config(page_title="SentiVerse: Emotional Forecasting AI", layout="wide")
 
 # Emoji theme + title
 st.markdown("<h1 style='text-align: center;'>🤖 SentiVerse: Emotional Forecasting AI</h1>", unsafe_allow_html=True)
+
+# Groq API setup
+client = Groq(api_key="your_groq_api_key_here")
+
+def generate_emotions_from_groq(headline):
+    try:
+        response = client.chat.completions.create(
+            model="llama3-8b-8192",
+            messages=[
+                {"role": "system", "content": "You are an expert in emotional forecasting and human-centered AI. Your job is to simulate emotional responses of the general public to various news headlines."},
+                {"role": "user", "content": f"Given the headline: '{headline}', generate:\n1. Three predicted emotional responses (e.g., optimism, fear, curiosity), each with 1-line explanation.\n2. An Emotional Volatility Score between 0 and 1.\n3. Cognitive alignment type (Analytical, Reflective, Impulsive, etc.)."}
+            ]
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"⚠️ Error: {e}"
 
 # Puzzle unlock gate
 if "unlocked" not in st.session_state:
@@ -26,9 +43,7 @@ if not st.session_state.unlocked:
 
 # Input headline
 sample = "Fuel prices rise sharply across the country"
-st.markdown("""
-#### Try this: `Fuel prices rise sharply across the country`
-""")
+st.markdown("#### Try this: `Fuel prices rise sharply across the country`")
 headline = st.text_input("Enter a news headline:", key="headline")
 
 # Stakeholder selection
@@ -36,28 +51,15 @@ stakeholder = st.radio("Who are you?", ["Student", "Teacher", "Government", "Cor
 
 # Emotional forecast
 if st.button("Forecast Emotional Futures") and headline:
-    emotions = ["Cautious optimism", "Mild anxiety", "Curiosity"]
+    gpt_output = generate_emotions_from_groq(headline)
+
     st.subheader("🧠 Simulated Emotional Futures")
-    for emo in emotions:
-        st.markdown(f"- {emo} - people are eager to see what unfolds.")
+    st.markdown(gpt_output)
 
-    # Random EVS (Emotional Volatility Score)
-    evs = round(random.uniform(0.2, 0.8), 2)
-    st.markdown(f"**Emotional Volatility Score (EVS):** `{evs}`")
-    if evs > 0.6:
-        st.warning("High volatility - public sentiment may shift rapidly.")
-    elif evs > 0.4:
-        st.info("Moderate volatility - keep monitoring sentiment.")
-    else:
-        st.success("Low volatility - public sentiment is stable.")
-
-    # Cognitive alignment prediction (mock)
-    cog_style = random.choice(["Analytical", "Impulsive", "Reflective"])
-    st.markdown(f"**Cognitive Alignment Prediction:** `{cog_style}`")
-
-    # Pie chart of emotional distribution
+    # Just for fun: Fake pie chart for visuals
+    emotions = ["Optimism", "Anxiety", "Curiosity"]
     fig = go.Figure(data=[
-        go.Pie(labels=emotions, values=[30, 40, 30], hole=0.3, 
+        go.Pie(labels=emotions, values=[30, 40, 30], hole=0.3,
                marker=dict(colors=["#FFD700", "#FFA07A", "#87CEFA"]))
     ])
     fig.update_layout(margin=dict(l=20, r=20, t=20, b=20), width=600, height=400)
@@ -97,7 +99,4 @@ if trainer_option:
         st.warning("Consider acknowledging people's emotions to reduce resistance.")
 
 # Footer
-st.markdown("""
----
-©2025 **SentiVerse** | Built with GPT, Streamlit, spaCy & Plotly - #AIforSociety
-""")
+st.markdown("---\n©2025 **SentiVerse** | Built with GPT, Streamlit, spaCy & Plotly - #AIforSociety")
