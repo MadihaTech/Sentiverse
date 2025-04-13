@@ -10,7 +10,7 @@ st.set_page_config(page_title="SentiVerse: Emotional Forecasting AI", layout="wi
 st.markdown("<h1 style='text-align: center;'>🤖 SentiVerse: Emotional Forecasting AI</h1>", unsafe_allow_html=True)
 
 # Groq API setup
-client = Groq(api_key="your_groq_api_key_here")
+client = Groq(api_key=st.secrets["groq_api_key"])
 
 def generate_emotions_from_groq(headline):
     try:
