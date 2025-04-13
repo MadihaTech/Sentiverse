@@ -1,30 +1,71 @@
-# SentiVerse - Emotional Forecasting AI
+# 🌐 SentiVerse — Emotional Forecasting AI
 
-**SentiVerse** is an AI concept that forecasts how people might *feel tomorrow*, based on what's happening today.
+**SentiVerse** is a human-aligned AI tool that simulates how society might *emotionally respond* to real-world headlines and events — before they happen.
 
-This project was built as part of the **FutureTech Challenge (2025)** and simulates emotional futures from real-world signals like news, headlines, or major events.
+This project was created for the **DDS FutureTech Challenge (2025)**, with a focus on empathy-driven design, emotional intelligence, and cognitive forecasting.
 
-## How It Works
-- Input: Any news headline or event
-- Output: 2-3 predicted emotional outcomes from society
-- Current version uses **mock GPT response** due to API rate limits
-- Real GPT integration logic is included and ready to activate
+---
 
-## Tech Stack
-- Google Colab
-- Python
-- (optional) OpenAI GPT-3.5 (currently mocked)
+## ⚙️ How It Works
 
-## Example
-**Input:** "Global AI law passed to regulate large language models"
+- **Input**: Any real or hypothetical news headline  
+- **Output**: Forecasted emotional responses + insights from key societal stakeholders  
+- **Powered By**: Groq’s ultra-fast LLMs (live), or mocked GPT-style logic (fallback)  
+- **Bonus**: Cognitive alignment predictions + emotional volatility scoring
 
-**Output:** 
-- Hopeful optimism
-- Cautious skepticism
-- Ethical uncertainity
+---
 
-## Note
-Due to API quota restrictions, the current demo uses mocked responses . The actual GPT-based forecasting code is included (commented out) and can be activated with a valid key.
+## 🛠 Tech Stack
 
-## Author
-Madiha - Final Year BBA AI Student | passionate about AI for human-centered strategy
+- **Frontend**: Streamlit  
+- **LLM Backend**: Groq API (live inference)  
+- **Visualization**: Plotly  
+- **Prototyping**: Jupyter Notebook (`Sentiverse.ipynb`)
+
+---
+
+## 🧪 Example Input
+
+> **Headline:** “India launches free AI education program for every student by 2026.”
+
+**Predicted Emotional Forecast**:
+- Hope  
+- Curiosity  
+- Excitement  
+
+**Stakeholder Reactions**:
+- **Students**: Inspired and motivated  
+- **Educators**: Preparing for curriculum expansion  
+- **Policymakers**: Focus on implementation strategy
+
+---
+
+## ⚠️ Note on APIs
+
+- The deployed version uses **live Groq API**  
+- A fallback **mock mode** is included for testing if API limits are reached  
+- GPT-style response logic is commented and ready to be swapped in if needed
+
+---
+
+## 🖥 Run It Locally
+
+```bash
+git clone https://github.com/MadihaTech/Sentiverse.git
+cd Sentiverse
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+---
+
+## 👩‍💻 Author
+
+**Madiha**  
+Final Year BBA AI Student | Focused on AI x Emotion x Strategy  
+📧 madiha.businessai@gmail.com  
+🔗 [GitHub](https://github.com/MadihaTech)
+
+---
+
+> 💡 *“AI can predict the future — but SentiVerse predicts how we’ll feel about it.”*
