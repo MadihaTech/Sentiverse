@@ -99,4 +99,4 @@ if trainer_option:
         st.warning("Consider acknowledging people's emotions to reduce resistance.")
 
 # Footer
-st.markdown("---\n©2025 **SentiVerse** | Built with GPT, Streamlit, & Plotly - #AIforSociety")
+st.markdown("---\n©2025 **SentiVerse** | Built with GPT, Streamlit & Plotly - #AIforSociety")
